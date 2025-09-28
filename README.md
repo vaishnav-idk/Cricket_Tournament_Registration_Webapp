@@ -1,15 +1,14 @@
 # Cricket Tournament - Registration
 
 ## Supabase Setup
-
-  1 Login to Supabase
-  2 Start your project
-  3 New Project and Create a project
-  4 Note down Project URL & API Key
-  5 Update .env file with the credentials
+ - Login to Supabase
+ - Start your project
+ - New Project and Create a project
+ - Note down `Project URL` & `API Key`
+ - Create `.env` file with the credentials
 
 ## Supabase DB Setup queries
-Admins Table -- admins
+ - Admins Table -- `admins`
 ```
 -- Table
 CREATE TABLE public.admins (
@@ -25,7 +24,7 @@ CREATE TABLE public.admins (
 CREATE INDEX idx_admins_auth_uid ON public.admins(auth_uid);
 ```
 
-Players Table -- players
+ - Players Table -- `players`
 ```
 CREATE TABLE public.players (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -43,7 +42,7 @@ CREATE INDEX idx_players_status ON public.players(status);
 CREATE INDEX idx_players_email ON public.players(email);
 ```
 
-Player Status Audit
+ - Player Status Audit
 ```
 CREATE TABLE public.player_status_history (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -73,7 +72,7 @@ FOR EACH ROW
 EXECUTE FUNCTION log_player_status_change();
 ```
 
-Row-Level Security (RLS)
+ - Row-Level Security (RLS)
 ```
 -- Enable RLS
 ALTER TABLE public.players ENABLE ROW LEVEL SECURITY;
