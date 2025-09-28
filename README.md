@@ -6,6 +6,7 @@
  - New Project and Create a project
  - Note down `Project URL` & `API Key`
  - Create `.env` file with the credentials
+   - `.env.example` is there for reference
 
 ## Supabase DB Setup queries
  - Admins Table -- `admins`
