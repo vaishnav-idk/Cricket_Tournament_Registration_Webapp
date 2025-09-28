@@ -99,7 +99,7 @@ const AdminLogin = () => {
                       <FormControl>
                         <Input 
                           type="email" 
-                          placeholder="admin@tournament.com" 
+                          placeholder="Enter your email" 
                           {...field} 
                         />
                       </FormControl>
