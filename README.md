@@ -10,7 +10,7 @@
 
 ## Supabase DB Setup queries
 Admins Table -- admins
-``
+```
 -- Table
 CREATE TABLE public.admins (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -23,10 +23,10 @@ CREATE TABLE public.admins (
 
 -- Index for faster lookups
 CREATE INDEX idx_admins_auth_uid ON public.admins(auth_uid);
-``
+```
 
 Players Table -- players
-``
+```
 CREATE TABLE public.players (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   name text NOT NULL,
@@ -41,10 +41,10 @@ CREATE TABLE public.players (
 -- Indexes for performance
 CREATE INDEX idx_players_status ON public.players(status);
 CREATE INDEX idx_players_email ON public.players(email);
-``
+```
 
 Player Status Audit
-``
+```
 CREATE TABLE public.player_status_history (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   player_id uuid REFERENCES public.players(id) ON DELETE CASCADE,
@@ -71,10 +71,10 @@ CREATE TRIGGER trg_log_player_status
 AFTER UPDATE OF status ON public.players
 FOR EACH ROW
 EXECUTE FUNCTION log_player_status_change();
-``
+```
 
 Row-Level Security (RLS)
-``
+```
 -- Enable RLS
 ALTER TABLE public.players ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
@@ -123,5 +123,5 @@ USING (
     WHERE a.auth_uid = auth.uid()
   )
 );
-``
+```
 
