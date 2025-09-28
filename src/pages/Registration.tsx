@@ -98,7 +98,7 @@ const Registration = () => {
       if (error) throw error;
 
       toast({
-        title: "✅ Registration Successful",
+        title: "Registration Successful",
         description: `${data.name} has been registered successfully!`,
       });
 
@@ -107,7 +107,7 @@ const Registration = () => {
       });
     } catch (error: any) {
       toast({
-        title: "❌ Registration Failed",
+        title: "Registration Failed",
         description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       });
