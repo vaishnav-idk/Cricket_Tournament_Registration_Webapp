@@ -67,7 +67,7 @@ const Landing = () => {
               <CardTitle className="text-lg">Eligibility</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">Open for all registered players</p>
+              <p className="text-muted-foreground">Open for all registered players (18+)</p>
             </CardContent>
           </Card>
 
