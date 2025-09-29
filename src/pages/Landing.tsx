@@ -1,21 +1,54 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trophy, Calendar, MapPin, User } from "lucide-react";
 import { Link } from "react-router-dom";
 
+type TimeLeft = { days: number; hours: number; minutes: number; seconds: number; closed: boolean };
+
 const Landing = () => {
+  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+  // Removed tilt effect from hero title per request
+
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      const year = now.getFullYear();
+      const closing = new Date(year, 9, 30, 23, 59, 59, 999);
+      let diff = closing.getTime() - now.getTime();
+
+      if (diff <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, closed: true });
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      diff -= days * (1000 * 60 * 60 * 24);
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      diff -= hours * (1000 * 60 * 60);
+      const minutes = Math.floor(diff / (1000 * 60));
+      diff -= minutes * (1000 * 60);
+      const seconds = Math.floor(diff / 1000);
+
+      setTimeLeft({ days, hours, minutes, seconds, closed: false });
+    };
+
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-card">
+      <header className="border-b bg-card/80 sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-card/60 transition-colors">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Trophy className="h-6 w-6 text-primary" />
-              <h1 className="text-xl font-bold">Cricket Tournament 2025</h1>
+            <div className="flex items-center space-x-3">
+              <span className="text-3xl transition-transform duration-150 hover:rotate-6" aria-hidden>🏆</span>
+              <h1 className="text-2xl font-bold font-hero transition-transform duration-150 hover:scale-[1.02]">Cricket Tournament 2025</h1>
             </div>
             <Link to="/admin">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="lg" className="hover-bounce px-6 transition-transform duration-150 hover:scale-[1.03] active:scale-[0.98]">
                 Admin Login
               </Button>
             </Link>
@@ -23,72 +56,112 @@ const Landing = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <main className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">
-            Dolphin Club
-          </h1>
-          <h1 className="text-4xl font-bold mb-4">
+      <main className="container mx-auto px-4 py-16">
+        <div id="hero-cluster" className="text-center mb-14">
+          {/* Small bubble above heading */}
+          <div className="flex justify-center mb-6">
+            <span className="bounce-slow font-hero inline-flex items-center rounded-full bg-primary/15 text-primary px-6 py-3 text-2xl md:text-3xl shadow-sm">
+              🐬 Dolphin Club
+            </span>
+          </div>
+          <h1 className="font-hero tracking-tight text-5xl md:text-7xl font-extrabold mb-2 animate-fade-up bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent animate-gradient-x drop-shadow-[0_6px_24px_rgba(59,130,246,0.35)]">
             CSL Cricket Tournament 2025
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <div className="flex justify-center mb-4">
+            <span className="typewriter text-xl md:text-2xl font-hero opacity-90">Register. Compete. Celebrate cricket.</span>
+          </div>
+          {/* Countdown */}
+          <div className="mx-auto mb-8 animate-fade-up">
+            <div className="inline-flex items-center gap-4 rounded-xl bg-secondary text-secondary-foreground px-5 py-3 shadow">
+              <span className="text-2xl md:text-3xl" aria-hidden>⏳</span>
+              {timeLeft && !timeLeft.closed ? (
+                <div className="flex items-end gap-4 font-hero">
+                  <div className="text-center">
+                    <div className="text-2xl md:text-4xl font-bold leading-none">{timeLeft.days}</div>
+                    <div className="text-xs md:text-sm opacity-80">Days</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl md:text-4xl font-bold leading-none">{String(timeLeft.hours).padStart(2, '0')}</div>
+                    <div className="text-xs md:text-sm opacity-80">Hours</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl md:text-4xl font-bold leading-none">{String(timeLeft.minutes).padStart(2, '0')}</div>
+                    <div className="text-xs md:text-sm opacity-80">Minutes</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl md:text-4xl font-bold leading-none">{String(timeLeft.seconds).padStart(2, '0')}</div>
+                    <div className="text-xs md:text-sm opacity-80">Seconds</div>
+                  </div>
+                </div>
+              ) : (
+                <span className="text-lg md:text-xl font-medium">Registration closed</span>
+              )}
+            </div>
+          </div>
+          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-fade-in">
             Be part of the most exciting cricket event of the year. Register now and showcase your skills on the field!
           </p>
           <Link to="/register">
-            <Button size="lg" className="text-lg px-8 py-4">
+            <Button size="lg" className="interactive-hover hover-bounce text-lg px-8 py-5 transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98]">
               Register as a Player
             </Button>
           </Link>
         </div>
 
         {/* Tournament Info Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <Card>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <Card className="interactive-hover hover-bounce transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg">
             <CardHeader className="text-center">
-              <Calendar className="h-8 w-8 text-primary mx-auto mb-2" />
-              <CardTitle className="text-lg">Tournament Dates</CardTitle>
+              <div className="text-3xl mb-2">📅</div>
+              <CardTitle className="text-lg md:text-xl">Tournament Dates</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-muted-foreground">December 15–22, 2025</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="interactive-hover hover-bounce transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg">
             <CardHeader className="text-center">
-              <MapPin className="h-8 w-8 text-primary mx-auto mb-2" />
-              <CardTitle className="text-lg">Venue</CardTitle>
+              <div className="text-3xl mb-2">📍</div>
+              <CardTitle className="text-lg md:text-xl">Venue</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-muted-foreground">CSL Sports Complex</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg">
             <CardHeader className="text-center">
-              <User className="h-8 w-8 text-primary mx-auto mb-2" />
-              <CardTitle className="text-lg">Eligibility</CardTitle>
+              <div className="text-3xl mb-2">👤</div>
+              <CardTitle className="text-lg md:text-xl">Eligibility</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-muted-foreground">Exclusively for CSL Employees</p>
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader className="text-center">
-              <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
-              <CardTitle className="text-lg">Prize Pool</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <p className="text-muted-foreground">₹50,000</p>
-            </CardContent>
-          </Card>
         </div>
+
+        {/* Infinite image carousel (emoji placeholders). Replace items with real <img> tags as needed. */}
+        <section className="mb-12">
+          <div className="marquee">
+            <div className="marquee-pingpong gap-8 py-4">
+              {["🏏", "⚾", "🧤", "🎯", "🥇", "🏟️", "📸", "🎽"].concat(["🏏", "⚾", "🧤", "🎯", "🥇", "🏟️", "📸", "🎽"]).map((icon, idx) => (
+                <div
+                  key={idx}
+                  className="bounce-slow shrink-0 w-[18rem] h-[12rem] rounded-xl bg-card border flex items-center justify-center text-[5rem] shadow-sm"
+                  aria-hidden
+                >
+                  {icon}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* Player Registration Requirements */}
         <Card className="max-w-4xl mx-auto">
           <CardHeader>
-            <CardTitle className="text-2xl text-center">Player Registration Requirements</CardTitle>
+            <CardTitle className="text-2xl md:text-3xl text-center font-hero">Player Registration Requirements</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid md:grid-cols-1 gap-6">
@@ -106,7 +179,7 @@ const Landing = () => {
             </div>
             <div className="text-center pt-6">
               <Link to="/register">
-                <Button size="lg">
+                <Button size="lg" className="interactive-hover hover-bounce px-8 py-5 transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98]">
                   Start Player Registration
                 </Button>
               </Link>

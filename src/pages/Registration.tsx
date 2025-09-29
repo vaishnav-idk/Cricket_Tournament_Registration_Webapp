@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -67,6 +68,7 @@ const playerSchema = z.object({
     .max(255, "Email must be less than 255 characters")
     .optional()
     .or(z.literal("")),
+  wicket_keeper: z.boolean().default(false),
 });
 
 type PlayerFormData = z.infer<typeof playerSchema>;
@@ -85,6 +87,7 @@ const Registration = () => {
       date_of_birth: "",
       contact: "",
       email: "",
+      wicket_keeper: false,
     },
   });
 
@@ -99,6 +102,7 @@ const Registration = () => {
           date_of_birth: data.date_of_birth,
           contact: data.contact.trim(),
           email: data.email?.trim().toLowerCase() || null,
+          wicket_keeper: Boolean(data.wicket_keeper),
         },
       ]);
 
@@ -125,7 +129,7 @@ const Registration = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-12">
         <div className="mb-6">
           <Link
             to="/"
@@ -137,9 +141,11 @@ const Registration = () => {
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-2xl">Player Registration</CardTitle>
+          <Card className="shadow-lg border border-border/60">
+            <CardHeader className="text-center">
+              <CardTitle className="text-3xl md:text-4xl bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent">
+                🏏 Player Registration
+              </CardTitle>
               <p className="text-muted-foreground">
                 Fill in your details to participate in the Cricket Tournament 2025
               </p>
@@ -149,7 +155,7 @@ const Registration = () => {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-6"
+                  className="space-y-6 animate-fade-up"
                 >
                   {/* Full Name */}
                   <FormField
@@ -157,9 +163,13 @@ const Registration = () => {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Full Name *</FormLabel>
+                        <FormLabel className="text-base md:text-lg">Full Name *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter full name" {...field} />
+                          <Input
+                            placeholder="Enter full name"
+                            className="transition-shadow focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-1"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -172,11 +182,12 @@ const Registration = () => {
                     name="employee_code"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Employee Code *</FormLabel>
+                        <FormLabel className="text-base md:text-lg">Employee Code *</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
                             placeholder="Enter employee code"
+                            className="transition-shadow focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-1"
                             {...field}
                             onChange={(e) =>
                               field.onChange(
@@ -196,10 +207,10 @@ const Registration = () => {
                     name="role"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Playing Role *</FormLabel>
+                        <FormLabel className="text-base md:text-lg">Playing Role *</FormLabel>
                         <FormControl>
                           <select
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-ring"
+                            className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm transition-shadow focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-1"
                             {...field}
                           >
                             {playerRoles.map((role) => (
@@ -214,15 +225,41 @@ const Registration = () => {
                     )}
                   />
 
+                  {/* Wicket Keeper */}
+                  <FormField
+                    control={form.control}
+                    name="wicket_keeper"
+                    render={({ field }) => (
+                      <FormItem className="flex items-center space-x-2">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={(v) => field.onChange(Boolean(v))}
+                          />
+                        </FormControl>
+                        <div className="space-y-0.5">
+                          <FormLabel>Can play as Wicket Keeper</FormLabel>
+                          <p className="text-xs text-muted-foreground">
+                            Tick if the player can keep wickets.
+                          </p>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+
                   {/* Date of Birth */}
                   <FormField
                     control={form.control}
                     name="date_of_birth"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Date of Birth *</FormLabel>
+                        <FormLabel className="text-base md:text-lg">Date of Birth *</FormLabel>
                         <FormControl>
-                          <Input type="date" {...field} />
+                          <Input
+                            type="date"
+                            className="min-w-0 w-[170px] md:w-[150px] h-9 text-xs px-2 py-1 leading-tight bg-white text-black [color-scheme:light] transition-colors focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-1"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -235,11 +272,12 @@ const Registration = () => {
                     name="contact"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Contact Number *</FormLabel>
+                        <FormLabel className="text-base md:text-lg">Contact Number *</FormLabel>
                         <FormControl>
                           <Input
                             type="tel"
                             placeholder="Enter 10 digit number"
+                            className="transition-shadow focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-1"
                             {...field}
                           />
                         </FormControl>
@@ -254,11 +292,12 @@ const Registration = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email Address</FormLabel>
+                        <FormLabel className="text-base md:text-lg">Email Address</FormLabel>
                         <FormControl>
                           <Input
                             type="email"
                             placeholder="Enter email address"
+                            className="transition-shadow focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-1"
                             {...field}
                           />
                         </FormControl>
@@ -269,7 +308,12 @@ const Registration = () => {
 
                   {/* Submit */}
                   <div className="flex justify-center pt-4">
-                    <Button type="submit" size="lg" disabled={isSubmitting}>
+                    <Button
+                      type="submit"
+                      size="lg"
+                      disabled={isSubmitting}
+                      className="hover-bounce px-8"
+                    >
                       {isSubmitting ? "Registering..." : "Register Player"}
                     </Button>
                   </div>
