@@ -52,14 +52,22 @@ const playerSchema = z.object({
     .positive("Employee code must be a positive number"),
   role: z.enum(playerRoles, { required_error: "Please select a role" }),
   date_of_birth: z
+    .string()
     .refine((val) => !isNaN(Date.parse(val)), "Invalid date format")
     .refine((val) => isAtLeastAge(val, 18), {
       message: "Player must be at least 18 years old",
     }),
   contact: z
+    .string()
     .min(10, "Contact number must be 10 digits")
     .max(10, "Contact number must be 10 digits")
     .regex(/^[0-9]+$/, "Contact number must contain only numbers"),
+  email: z
+    .string()
+    .email("Invalid email address")
+    .max(255, "Email must be less than 255 characters")
+    .optional()
+    .or(z.literal("")),
   wicket_keeper: z.boolean().default(false),
 });
 
@@ -78,6 +86,7 @@ const Registration = () => {
       role: "Batsman",
       date_of_birth: "",
       contact: "",
+      email: "",
       wicket_keeper: false,
     },
   });
@@ -92,6 +101,7 @@ const Registration = () => {
           role: data.role,
           date_of_birth: data.date_of_birth,
           contact: data.contact.trim(),
+          email: data.email?.trim().toLowerCase() || null,
           wicket_keeper: Boolean(data.wicket_keeper),
         },
       ]);
@@ -271,10 +281,36 @@ const Registration = () => {
                             {...field}
                           />
                         </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Email (Optional) */}
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-base md:text-lg">Email Address</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="Enter email address"
+                            className="transition-shadow focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-1"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   {/* Submit */}
                   <div className="flex justify-center pt-4">
                     <Button
                       type="submit"
+                      size="lg"
                       disabled={isSubmitting}
                       className="hover-bounce px-8"
                     >
