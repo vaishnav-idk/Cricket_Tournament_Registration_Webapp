@@ -52,16 +52,15 @@ const playerSchema = z.object({
     }),
   contact: z
     .string()
-    .optional()
-    .refine(
-      (val) => !val || /^[0-9]{10}$/.test(val),
-      "Contact number must be 10 digits"
-    ),
+    .min(10, "Contact number is required and must be 10 digits")
+    .max(10, "Contact number must be 10 digits")
+    .regex(/^[0-9]{10}$/, "Contact number must be 10 digits"),
   email: z
     .string()
-    .min(1, "Email is required")
     .max(255, "Email must be less than 255 characters")
-    .email("Invalid email address"),
+    .email("Invalid email address")
+    .optional()
+    .or(z.literal("")),
 });
 
 type PlayerFormData = z.infer<typeof playerSchema>;
@@ -90,8 +89,8 @@ const Registration = () => {
           name: data.name.trim(),
           role: data.role,
           date_of_birth: data.date_of_birth,
-          contact: data.contact?.trim() || null,
-          email: data.email.trim().toLowerCase(),
+          contact: data.contact.trim(),
+          email: data.email?.trim().toLowerCase() || null,
         },
       ]);
 
@@ -198,32 +197,36 @@ const Registration = () => {
                     )}
                   />
 
-                  {/* Contact Number */}
+                  {/* Contact Number (Mandatory) */}
                   <FormField
                     control={form.control}
                     name="contact"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Contact Number</FormLabel>
+                        <FormLabel>Contact Number *</FormLabel>
                         <FormControl>
-                          <Input type="tel" placeholder="Enter 10 digit number" {...field} />
+                          <Input
+                            type="tel"
+                            placeholder="Enter 10 digit number"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
 
-                  {/* Email */}
+                  {/* Email (Optional) */}
                   <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email Address *</FormLabel>
+                        <FormLabel>Email Address</FormLabel>
                         <FormControl>
                           <Input
                             type="email"
-                            placeholder="Enter email address"
+                            placeholder="Enter email address (optional)"
                             {...field}
                           />
                         </FormControl>
