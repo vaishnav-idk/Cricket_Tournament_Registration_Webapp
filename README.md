@@ -32,49 +32,18 @@ CREATE TABLE public.players (
   name text NOT NULL,
   role text NOT NULL,  -- Batsman, Bowler, All-rounder, etc.
   date_of_birth date NOT NULL,
-  contact text,
+  contact text NOT NULL,
   email text,
   created_at timestamptz DEFAULT now(),
 );
 
 -- Indexes for performance
-CREATE INDEX idx_players_status ON public.players(status);
+CREATE INDEX idx_players_role ON public.players(role);
 CREATE INDEX idx_players_email ON public.players(email);
 ```
-
- - Player Status Audit
-```
-CREATE TABLE public.player_status_history (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  player_id uuid REFERENCES public.players(id) ON DELETE CASCADE,
-  old_status text,
-  new_status text,
-  changed_by uuid REFERENCES public.admins(auth_uid),
-  changed_at timestamptz DEFAULT now()
-);
-
--- Trigger function to log status changes
-CREATE OR REPLACE FUNCTION log_player_status_change()
-RETURNS TRIGGER AS $$
-BEGIN
-  IF NEW.status IS DISTINCT FROM OLD.status THEN
-    INSERT INTO public.player_status_history(player_id, old_status, new_status, changed_by)
-    VALUES (OLD.id, OLD.status, NEW.status, auth.uid());
-  END IF;
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Attach trigger to players table
-CREATE TRIGGER trg_log_player_status
-AFTER UPDATE OF status ON public.players
-FOR EACH ROW
-EXECUTE FUNCTION log_player_status_change();
-```
-
- - Row-Level Security (RLS)
-```
--- Enable RLS
+ - RLS (Row Level Security) Policies
+ ```
+ -- Enable RLS
 ALTER TABLE public.players ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
 
@@ -86,7 +55,7 @@ TO public
 WITH CHECK (true);
 
 -- Allow only admins to update or delete player records
-CREATE POLICY "Admins can update player status"
+CREATE POLICY "Admins can update players"
 ON public.players
 FOR UPDATE
 USING (
