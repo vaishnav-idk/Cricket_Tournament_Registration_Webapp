@@ -136,8 +136,12 @@ All colors MUST be HSL.
   .typewriter {
     overflow: hidden;
     white-space: nowrap;
+    display: inline-block;
     border-right: 2px solid hsl(var(--primary));
-    width: 40ch; /* matches the approximate length of the phrase */
+    /* Responsive max width: won't exceed 40ch and fits small screens */
+    max-width: clamp(22ch, 90vw, 40ch);
+    /* Start at 0 and type to full available width */
+    width: 0;
     animation: typing 3.5s steps(40) 0.3s both, blink-caret 700ms step-end infinite;
   }
   .marquee {
@@ -186,7 +190,7 @@ All colors MUST be HSL.
 
 @keyframes typing {
   from { width: 0 }
-  to { width: 40ch }
+  to { width: 100% }
 }
 
 @keyframes blink-caret {
