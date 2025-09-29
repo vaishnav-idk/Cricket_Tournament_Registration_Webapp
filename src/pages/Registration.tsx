@@ -22,7 +22,6 @@ const playerRoles = [
   "Batsman",
   "Bowler",
   "All-rounder",
-  "Wicket-keeper",
 ] as const;
 
 // Utility to check minimum age
@@ -37,12 +36,19 @@ const isAtLeastAge = (dob: string, age: number) => {
   return birthDate <= minDate;
 };
 
+// Zod schema with updated validation
 const playerSchema = z.object({
   name: z
     .string()
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name must be less than 50 characters")
     .regex(/^[A-Za-z\s]+$/, "Name can only contain letters and spaces"),
+  employee_code: z
+    .number({
+      required_error: "Employee code is required",
+      invalid_type_error: "Employee code must be a number",
+    })
+    .positive("Employee code must be a positive number"),
   role: z.enum(playerRoles, { required_error: "Please select a role" }),
   date_of_birth: z
     .string()
@@ -52,13 +58,13 @@ const playerSchema = z.object({
     }),
   contact: z
     .string()
-    .min(10, "Contact number is required and must be 10 digits")
+    .min(10, "Contact number must be 10 digits")
     .max(10, "Contact number must be 10 digits")
-    .regex(/^[0-9]{10}$/, "Contact number must be 10 digits"),
+    .regex(/^[0-9]+$/, "Contact number must contain only numbers"),
   email: z
     .string()
-    .max(255, "Email must be less than 255 characters")
     .email("Invalid email address")
+    .max(255, "Email must be less than 255 characters")
     .optional()
     .or(z.literal("")),
 });
@@ -74,6 +80,7 @@ const Registration = () => {
     resolver: zodResolver(playerSchema),
     defaultValues: {
       name: "",
+      employee_code: undefined,
       role: "Batsman",
       date_of_birth: "",
       contact: "",
@@ -86,6 +93,7 @@ const Registration = () => {
     try {
       const { error } = await supabase.from("players").insert([
         {
+          employee_code: data.employee_code,
           name: data.name.trim(),
           role: data.role,
           date_of_birth: data.date_of_birth,
@@ -158,6 +166,30 @@ const Registration = () => {
                     )}
                   />
 
+                  {/* Employee Code */}
+                  <FormField
+                    control={form.control}
+                    name="employee_code"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Employee Code *</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Enter employee code"
+                            {...field}
+                            onChange={(e) =>
+                              field.onChange(
+                                e.target.value ? Number(e.target.value) : undefined
+                              )
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   {/* Role */}
                   <FormField
                     control={form.control}
@@ -197,7 +229,7 @@ const Registration = () => {
                     )}
                   />
 
-                  {/* Contact Number (Mandatory) */}
+                  {/* Contact Number */}
                   <FormField
                     control={form.control}
                     name="contact"
@@ -226,7 +258,7 @@ const Registration = () => {
                         <FormControl>
                           <Input
                             type="email"
-                            placeholder="Enter email address (optional)"
+                            placeholder="Enter email address"
                             {...field}
                           />
                         </FormControl>

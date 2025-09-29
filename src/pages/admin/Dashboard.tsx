@@ -18,11 +18,11 @@ import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 
 interface PlayerRecord {
-  id: string;
+  employee_code: number;
   name: string;
   role: string;
   date_of_birth: string;
-  contact?: string | null;
+  contact: string;
   email: string;
   created_at: string;
 }
@@ -31,7 +31,9 @@ const AdminDashboard = () => {
   const [players, setPlayers] = useState<PlayerRecord[]>([]);
   const [filtered, setFiltered] = useState<PlayerRecord[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [roleFilter, setRoleFilter] = useState<"all" | "Batsman" | "Bowler" | "All-Rounder">("all");
+  const [roleFilter, setRoleFilter] = useState<
+    "all" | "Batsman" | "Bowler" | "All-Rounder"
+  >("all");
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -96,7 +98,9 @@ const AdminDashboard = () => {
     try {
       const { data: playersData, error } = await supabase
         .from("players")
-        .select("id, name, role, date_of_birth, contact, email, created_at")
+        .select(
+          "employee_code, name, role, date_of_birth, contact, email, created_at"
+        )
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -122,8 +126,9 @@ const AdminDashboard = () => {
         (p) =>
           p.name.toLowerCase().includes(q) ||
           p.email.toLowerCase().includes(q) ||
-          (p.contact || "").includes(q) ||
-          p.role.toLowerCase().includes(q)
+          p.contact.includes(q) ||
+          p.role.toLowerCase().includes(q) ||
+          p.employee_code.toString().includes(q)
       );
     }
 
@@ -138,7 +143,7 @@ const AdminDashboard = () => {
 
   const exportToExcel = () => {
     const exportData = filtered.map((p) => ({
-      "Player ID": p.id,
+      "Employee Code": p.employee_code,
       Name: p.name,
       Role: p.role,
       "Date of Birth": p.date_of_birth
@@ -171,12 +176,8 @@ const AdminDashboard = () => {
 
   const stats = {
     total: players.length,
-    batsmen: players.filter(
-      (p) => p.role.toLowerCase() === "batsman"
-    ).length,
-    bowlers: players.filter(
-      (p) => p.role.toLowerCase() === "bowler"
-    ).length,
+    batsmen: players.filter((p) => p.role.toLowerCase() === "batsman").length,
+    bowlers: players.filter((p) => p.role.toLowerCase() === "bowler").length,
     allRounders: players.filter(
       (p) => p.role.toLowerCase() === "all-rounder"
     ).length,
@@ -270,7 +271,7 @@ const AdminDashboard = () => {
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search name, email, phone, role..."
+                  placeholder="Search name, email, phone, employee code, role..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10"
@@ -298,11 +299,14 @@ const AdminDashboard = () => {
 
             <div className="space-y-4">
               {filtered.map((p) => (
-                <Card key={p.id} className="p-4">
+                <Card key={p.employee_code} className="p-4">
                   <div className="flex items-center justify-between mb-3">
                     <div>
                       <h3 className="font-semibold text-lg">{p.name}</h3>
                       <p className="text-sm text-muted-foreground">{p.role}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Employee Code: {p.employee_code}
+                      </p>
                       <p className="text-sm text-muted-foreground">
                         {p.email}
                         {p.contact ? ` • ${p.contact}` : ""}
@@ -310,8 +314,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                   <div className="text-sm text-muted-foreground">
-                    Registered:{" "}
-                    {new Date(p.created_at).toLocaleString()}
+                    Registered: {new Date(p.created_at).toLocaleString()}
                     {p.date_of_birth && (
                       <span>
                         {" "}
