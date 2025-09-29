@@ -286,7 +286,7 @@ const Registration = () => {
                     )}
                   />
 
-                  {/* Email (Optional) */}
+                  {/* Email (Optional)
                   <FormField
                     control={form.control}
                     name="email"
@@ -304,7 +304,7 @@ const Registration = () => {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
 
                   {/* Submit */}
                   <div className="flex justify-center pt-4">
