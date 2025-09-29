@@ -28,9 +28,9 @@ CREATE INDEX idx_admins_auth_uid ON public.admins(auth_uid);
  - Players Table -- `players`
 ```
 CREATE TABLE public.players (
-  employee_code bigint PRIMARY KEY,  -- Employee code as number
+  employee_code bigint PRIMARY KEY,  
   name text NOT NULL,
-  role text NOT NULL,                -- Batsman, Bowler, All-rounder, etc.
+  role text NOT NULL,                
   date_of_birth date NOT NULL,
   contact text NOT NULL,
   email text,
