@@ -68,7 +68,11 @@ const Landing = () => {
             CSL Cricket Tournament 2025
           </h1>
           <div className="flex justify-center mb-4">
-            <span className="typewriter text-xl md:text-2xl font-hero opacity-90">Register. Compete. Celebrate cricket.</span>
+            <span className="typewriter text-xl md:text-2xl font-hero opacity-90">
+              Register. Compete.
+              <br className="sm:hidden" />
+              {' '}Celebrate cricket.
+            </span>
           </div>
           {/* Countdown */}
           <div className="mx-auto mb-8 animate-fade-up">
