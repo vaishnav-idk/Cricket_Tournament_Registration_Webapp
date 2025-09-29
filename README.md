@@ -28,17 +28,18 @@ CREATE INDEX idx_admins_auth_uid ON public.admins(auth_uid);
  - Players Table -- `players`
 ```
 CREATE TABLE public.players (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  employee_code bigint PRIMARY KEY,  -- Employee code as number
   name text NOT NULL,
-  role text NOT NULL,  -- Batsman, Bowler, All-rounder, etc.
+  role text NOT NULL,                -- Batsman, Bowler, All-rounder, etc.
   date_of_birth date NOT NULL,
   contact text NOT NULL,
   email text,
-  created_at timestamptz DEFAULT now(),
+  created_at timestamptz DEFAULT now()
 );
 
--- Indexes for performance
+-- -- Indexes for performance
 CREATE INDEX idx_players_role ON public.players(role);
+CREATE INDEX idx_players_ecode ON public.players(employee_code);
 CREATE INDEX idx_players_email ON public.players(email);
 ```
  - RLS (Row Level Security) Policies
