@@ -33,9 +33,8 @@ CREATE TABLE public.players (
   role text NOT NULL,  -- Batsman, Bowler, All-rounder, etc.
   date_of_birth date NOT NULL,
   contact text,
-  email text NOT NULL,
+  email text,
   created_at timestamptz DEFAULT now(),
-  status text DEFAULT 'pending'  -- pending, confirmed, rejected
 );
 
 -- Indexes for performance
