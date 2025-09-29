@@ -27,7 +27,10 @@ const Landing = () => {
       <main className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">
-            Player Registration – Cricket Tournament 2025
+            Dolphin Club
+          </h1>
+          <h1 className="text-4xl font-bold mb-4">
+            CSL Cricket Tournament 2025
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Be part of the most exciting cricket event of the year. Register now and showcase your skills on the field!
@@ -47,7 +50,7 @@ const Landing = () => {
               <CardTitle className="text-lg">Tournament Dates</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">November 15–25, 2025</p>
+              <p className="text-muted-foreground">December 15–22, 2025</p>
             </CardContent>
           </Card>
 
@@ -57,7 +60,7 @@ const Landing = () => {
               <CardTitle className="text-lg">Venue</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">JLN Stadium, Kochi</p>
+              <p className="text-muted-foreground">CSL Sports Complex</p>
             </CardContent>
           </Card>
 
@@ -67,7 +70,7 @@ const Landing = () => {
               <CardTitle className="text-lg">Eligibility</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">Open for all registered players (18+)</p>
+              <p className="text-muted-foreground">Exclusively for CSL Employees</p>
             </CardContent>
           </Card>
 
