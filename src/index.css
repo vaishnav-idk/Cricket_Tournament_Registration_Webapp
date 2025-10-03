@@ -93,8 +93,17 @@ All colors MUST be HSL.
 /* Custom font registration and utility */
 @font-face {
   font-family: "NeueMetanaNext";
-  src: url("/fonts/NeueMetanaNext-SemiBold.otf") format("opentype");
+  src: url("../fonts/NeueMetanaNext-SemiBold.otf") format("opentype");
   font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Warpen headline font */
+@font-face {
+  font-family: "Warpen";
+  src: url("../fonts/Warpen.otf") format("opentype");
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }

@@ -60,12 +60,12 @@ const Landing = () => {
           {/* <h1 className="font-warpen tracking-tight text-5xl md:text-7xl mb-2 animate-fade-up bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent animate-gradient-x drop-shadow-[0_6px_24px_rgba(59,130,246,0.35)]">
             DCCL SEASON III
           </h1> */}
-          <h1 className="font-warpen">
+          <h1 className="font-warpen text-5xl">
     DCCL SEASON III
 </h1>
           <div className="flex justify-center mb-4">
-            <span className="typewriter text-xl md:text-2xl font-hero opacity-90">
-              Play Together Win Together
+            <span className="typewriter text-xl md:text-lg font-hero opacity-90">
+              Play Together.  Win Together.
             </span>
           </div>
           {/* Countdown */}
