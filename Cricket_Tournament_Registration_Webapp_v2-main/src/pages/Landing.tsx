@@ -3,20 +3,29 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { Phone } from "lucide-react";
+import { type CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import dolphinLogo from "../../images/Dolphin_club_logo.jpg";
 import tournamentLogo from "../../images/circket_tournament_logo.jpg";
+import cara1 from "../../images/carasoul/caraimg1.jpg";
+import cara2 from "../../images/carasoul/caraimg2.jpg";
+import cara3 from "../../images/carasoul/caraimg3.jpg";
+import cara4 from "../../images/carasoul/caraimg4.jpg";
+import cara5 from "../../images/carasoul/caraimg5.jpg";
+import cara6 from "../../images/carasoul/caraimg6.jpg";
 
 type TimeLeft = { days: number; hours: number; minutes: number; seconds: number; closed: boolean };
 
 const Landing = () => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+  const [carouselApi, setCarouselApi] = useState<CarouselApi | undefined>();
+  const [paused, setPaused] = useState(false);
   // Removed tilt effect from hero title per request
 
   useEffect(() => {
     const tick = () => {
       const now = new Date();
       const year = now.getFullYear();
-      const closing = new Date(year, 9, 30, 23, 59, 59, 999);
+      const closing = new Date(year, 10, 16, 23, 59, 59, 999);
       let diff = closing.getTime() - now.getTime();
 
       if (diff <= 0) {
@@ -39,6 +48,50 @@ const Landing = () => {
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
+
+  // Autoplay carousel: advance every 3s, pause on hover and when tab hidden
+  useEffect(() => {
+    if (!carouselApi) return;
+    let intervalId: number | undefined;
+
+    const start = () => {
+      if (paused || document.hidden) return;
+      stop();
+      intervalId = window.setInterval(() => {
+        if (!paused && !document.hidden) {
+          carouselApi.scrollNext();
+        }
+      }, 1500);
+    };
+
+    const stop = () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = undefined;
+      }
+    };
+
+    const onVisibility = () => {
+      if (document.hidden) stop();
+      else start();
+    };
+
+    start();
+    document.addEventListener("visibilitychange", onVisibility);
+
+    // Also restart on user drag end
+    const onPointerDown = () => stop();
+    const onPointerUp = () => start();
+    carouselApi.on("pointerDown", onPointerDown);
+    carouselApi.on("pointerUp", onPointerUp);
+
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
+      carouselApi.off("pointerDown", onPointerDown);
+      carouselApi.off("pointerUp", onPointerUp);
+    };
+  }, [carouselApi, paused]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -144,21 +197,28 @@ Matches- 10,11,18 Jan
           </Card>
         </div>
 
-        {/* Infinite image carousel (emoji placeholders). Replace items with real <img> tags as needed. */}
-        <section className="mb-12">
-          <div className="marquee">
-            <div className="marquee-pingpong gap-8 py-4">
-              {["🏏", "⚾", "🧤", "🎯", "🥇", "🏟️", "📸", "🎽"].concat(["🏏", "⚾", "🧤", "🎯", "🥇", "🏟️", "📸", "🎽"]).map((icon, idx) => (
-                <div
-                  key={idx}
-                  className="bounce-slow shrink-0 w-[18rem] h-[12rem] rounded-xl bg-card border flex items-center justify-center text-[5rem] shadow-sm"
-                  aria-hidden
-                >
-                  {icon}
-                </div>
+        {/* Infinite, responsive image carousel */}
+        <section className="mb-12" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+          <Carousel className="w-full" opts={{ loop: true }} setApi={setCarouselApi}>
+            <CarouselContent>
+              {[cara1, cara2, cara3, cara4, cara5, cara6].map((src, i) => (
+                <CarouselItem key={i} className="basis-[85%] sm:basis-2/3 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                  <div className="p-2">
+                    <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border bg-card shadow">
+                      <img
+                        src={src}
+                        alt={`Tournament highlight ${i + 1}`}
+                        className="h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                </CarouselItem>
               ))}
-            </div>
-          </div>
+            </CarouselContent>
+            <CarouselPrevious className="hidden sm:flex" />
+            <CarouselNext className="hidden sm:flex" />
+          </Carousel>
         </section>
 
         {/* Player Registration Requirements
@@ -186,7 +246,7 @@ Matches- 10,11,18 Jan
         {/* Contact Section */}
         <Card className="max-w-4xl mx-auto mt-12">
           <CardHeader>
-            <CardTitle className="text-2xl md:text-3xl text-center font-hero">Contact the Subcommittee</CardTitle>
+            <CardTitle className="text-2xl md:text-3xl text-center font-hero">Contact Us</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -207,6 +267,9 @@ Matches- 10,11,18 Jan
               ))}
             </div>
           </CardContent>
+        </Card>
+        <Card className="max-w-4xl mx-auto mt-12">
+          <p className="group flex items-center justify-center text-center p-4 rounded-lg border bg-card hover:bg-muted/50 transition-all duration-200">Website Courtesy :  Vaishnav Chandran ET 2025</p>
         </Card>
       </main>
     </div>

@@ -54,7 +54,7 @@ const AdminLogin = () => {
           title: "Success",
           description: "Successfully logged in!"
         });
-        navigate('/admin/dashboard');
+        navigate('/admin/dashboard_v2');
       }
     } catch (error: any) {
       toast({
