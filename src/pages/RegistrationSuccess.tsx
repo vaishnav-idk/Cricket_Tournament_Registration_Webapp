@@ -30,9 +30,9 @@ const RegistrationSuccess = () => {
                 Registration ID: <code className="bg-muted px-2 py-1 rounded">{teamId}</code>
               </p>
             )}
-            <p className="text-muted-foreground">
+            {/* <p className="text-muted-foreground">
               Your registration is currently pending approval. You will be notified once the admin reviews your application.
-            </p>
+            </p> */}
             <div className="pt-4">
               <Link to="/">
                 <Button size="lg">

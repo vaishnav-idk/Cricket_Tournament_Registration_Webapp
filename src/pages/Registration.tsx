@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,6 +23,12 @@ const playerRoles = [
   "Batsman",
   "Bowler",
   "All-rounder",
+  "Batting allrounder",
+  "Bowling allrounder",
+  "Wicket Keeper"
+
+
+
 ] as const;
 
 // Utility to check minimum age
@@ -68,7 +74,7 @@ const playerSchema = z.object({
     .max(255, "Email must be less than 255 characters")
     .optional()
     .or(z.literal("")),
-  wicket_keeper: z.boolean().default(false),
+  gender: z.enum(["Male", "Female"], { required_error: "Please select gender" }),
 });
 
 type PlayerFormData = z.infer<typeof playerSchema>;
@@ -87,7 +93,7 @@ const Registration = () => {
       date_of_birth: "",
       contact: "",
       email: "",
-      wicket_keeper: false,
+      gender: "Male",
     },
   });
 
@@ -99,10 +105,10 @@ const Registration = () => {
           employee_code: data.employee_code,
           name: data.name.trim(),
           role: data.role,
+          gender: data.gender,
           date_of_birth: data.date_of_birth,
           contact: data.contact.trim(),
           email: data.email?.trim().toLowerCase() || null,
-          wicket_keeper: Boolean(data.wicket_keeper),
         },
       ]);
 
@@ -225,27 +231,35 @@ const Registration = () => {
                     )}
                   />
 
-                  {/* Wicket Keeper */}
+                  {/* Gender */}
                   <FormField
                     control={form.control}
-                    name="wicket_keeper"
+                    name="gender"
                     render={({ field }) => (
-                      <FormItem className="flex items-center space-x-2">
+                      <FormItem>
+                        <FormLabel className="text-base md:text-lg">Gender *</FormLabel>
                         <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={(v) => field.onChange(Boolean(v))}
-                          />
+                          <RadioGroup
+                            className="flex gap-6"
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem id="gender-male" value="Male" />
+                              <label htmlFor="gender-male" className="text-sm">Male</label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem id="gender-female" value="Female" />
+                              <label htmlFor="gender-female" className="text-sm">Female</label>
+                            </div>
+                          </RadioGroup>
                         </FormControl>
-                        <div className="space-y-0.5">
-                          <FormLabel>Can play as Wicket Keeper</FormLabel>
-                          <p className="text-xs text-muted-foreground">
-                            Tick if the player can keep wickets.
-                          </p>
-                        </div>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
+
+
 
                   {/* Date of Birth */}
                   <FormField

@@ -114,7 +114,9 @@ const Landing = () => {
               <CardTitle className="text-lg md:text-xl">Tournament Dates</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">Jan 2026</p>
+              <p className="text-muted-foreground">Player Auction - Nov 16 <br></br>
+Matches- 10,11,18 Jan
+</p>
             </CardContent>
           </Card>
 
@@ -124,7 +126,7 @@ const Landing = () => {
               <CardTitle className="text-lg md:text-xl">Venue</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">CSL Sports Complex</p>
+              <p className="text-muted-foreground">CoPT Open Ground, Wellington island</p>
             </CardContent>
           </Card>
 
@@ -134,7 +136,10 @@ const Landing = () => {
               <CardTitle className="text-lg md:text-xl">Eligibility</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">Exclusively for CSL Employees</p>
+              <p className="text-muted-foreground"><b>DCCL(Men's League):</b> Dolphin & Associate Members and their spouses.<br></br><br></br>
+
+
+<b>DCWCL(Women's League):</b> Dolphin & Associate Members, their spouses and wards of age 12-18</p>
             </CardContent>
           </Card>
         </div>
