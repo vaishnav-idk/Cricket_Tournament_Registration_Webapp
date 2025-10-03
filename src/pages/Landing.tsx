@@ -114,7 +114,7 @@ const Landing = () => {
               <CardTitle className="text-lg md:text-xl">Tournament Dates</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">December 15–22, 2025</p>
+              <p className="text-muted-foreground">Jan 2026</p>
             </CardContent>
           </Card>
 
