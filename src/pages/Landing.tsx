@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import { Phone } from "lucide-react";
+import dolphinLogo from "../../images/Dolphin_club_logo.jpg";
+import tournamentLogo from "../../images/circket_tournament_logo.jpg";
 
 type TimeLeft = { days: number; hours: number; minutes: number; seconds: number; closed: boolean };
 
@@ -39,39 +42,30 @@ const Landing = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card/80 sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-card/60 transition-colors">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <span className="text-3xl transition-transform duration-150 hover:rotate-6" aria-hidden>🏆</span>
-              <h1 className="text-2xl font-bold font-hero transition-transform duration-150 hover:scale-[1.02]">Cricket Tournament 2025</h1>
-            </div>
-            <Link to="/admin">
-              <Button variant="outline" size="lg" className="hover-bounce px-6 transition-transform duration-150 hover:scale-[1.03] active:scale-[0.98]">
-                Admin Login
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
 
       <main className="container mx-auto px-4 py-16">
         <div id="hero-cluster" className="text-center mb-14">
-          {/* Small bubble above heading */}
-          <div className="flex justify-center mb-6">
-            <span className="bounce-slow font-hero inline-flex items-center rounded-full bg-primary/15 text-primary px-6 py-3 text-2xl md:text-3xl shadow-sm">
-              🐬 Dolphin Club
-            </span>
+          <div className="flex justify-center items-center gap-8 mb-6 animate-fade-in">
+            <img
+              src={dolphinLogo}
+              alt="Dolphin Club"
+              className="h-24 w-24 md:h-32 md:w-32 rounded-full object-cover bounce-slow shadow-lg"
+            />
+            <img
+              src={tournamentLogo}
+              alt="Cricket Tournament Registration"
+              className="h-20 md:h-24 w-auto object-contain"
+            />
           </div>
-          <h1 className="font-hero tracking-tight text-5xl md:text-7xl font-extrabold mb-2 animate-fade-up bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent animate-gradient-x drop-shadow-[0_6px_24px_rgba(59,130,246,0.35)]">
-            CSL Cricket Tournament 2025
-          </h1>
+          {/* <h1 className="font-warpen tracking-tight text-5xl md:text-7xl mb-2 animate-fade-up bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent animate-gradient-x drop-shadow-[0_6px_24px_rgba(59,130,246,0.35)]">
+            DCCL SEASON III
+          </h1> */}
+          <h1 className="font-warpen">
+    DCCL SEASON III
+</h1>
           <div className="flex justify-center mb-4">
             <span className="typewriter text-xl md:text-2xl font-hero opacity-90">
-              Register. Compete.
-              <br className="sm:hidden" />
-              {' '}Celebrate cricket.
+              Play Together Win Together
             </span>
           </div>
           {/* Countdown */}
@@ -162,7 +156,7 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* Player Registration Requirements */}
+        {/* Player Registration Requirements
         <Card className="max-w-4xl mx-auto">
           <CardHeader>
             <CardTitle className="text-2xl md:text-3xl text-center font-hero">Player Registration Requirements</CardTitle>
@@ -181,12 +175,31 @@ const Landing = () => {
                 </div>
               </div>
             </div>
-            <div className="text-center pt-6">
-              <Link to="/register">
-                <Button size="lg" className="interactive-hover hover-bounce px-8 py-5 transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98]">
-                  Start Player Registration
-                </Button>
-              </Link>
+          </CardContent>
+        </Card> */}
+
+        {/* Contact Section */}
+        <Card className="max-w-4xl mx-auto mt-12">
+          <CardHeader>
+            <CardTitle className="text-2xl md:text-3xl text-center font-hero">Contact the Subcommittee</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[ { name: "Asif K Majeed", phone: "7994465148" }, { name: "Aravind Vijay", phone: "8129270895" }, { name: "Krishna Prasad S", phone: "8129270906" }, { name: "Logesh Karthick M", phone: "8714630992" }, { name: "Xaviour K Olassayil", phone: "8714630980" }, { name: "Sreenath B", phone: "7994435351" }, { name: "Namit M P", phone: "8714630929" }, { name: "Nandakishore P", phone: "7994230461" }, { name: "Rahul Verma", phone: "7994441162" }, { name: "Ajith", phone: "7736646119" } ].map((person) => (
+                <a
+                  key={person.name}
+                  href={`tel:${person.phone}`}
+                  className="group flex items-center justify-center text-center p-4 rounded-lg border bg-card hover:bg-muted/50 transition-all duration-200"
+                >
+                  <div className="flex items-center gap-4">
+                    <Phone className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <div>
+                      <p className="font-semibold text-card-foreground">{person.name}</p>
+                      <p className="text-sm text-muted-foreground group-hover:text-primary transition-colors">{person.phone}</p>
+                    </div>
+                  </div>
+                </a>
+              ))}
             </div>
           </CardContent>
         </Card>

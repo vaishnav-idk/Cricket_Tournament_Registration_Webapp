@@ -16,6 +16,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        warpen: ['Warpen', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
