@@ -80,7 +80,7 @@ const playerSchema = z.object({
     }
 
     // CORRECTED: Batting style is NOT required for Wicket Keeper
-    if (["Batter", "Batting Allrounder", "Bowling Allrounder"].includes(data.player_profile) && !data.batting_style) {
+    if (["Batter", "Batting Allrounder", "Bowling Allrounder","Wicket Keeper"].includes(data.player_profile) && !data.batting_style) {
         ctx.addIssue({ path: ["batting_style"], message: "Batting style is required for this profile" });
     }
 
