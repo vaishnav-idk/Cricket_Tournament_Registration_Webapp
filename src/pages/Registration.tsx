@@ -141,8 +141,8 @@ const Registration = () => {
   }, [selectedLeague, getValues, setValue]);
 
   // CORRECTED: Batting style is NOT shown for Wicket Keeper
-  const showBattingStyle = ["Batter", "Batting Allrounder", "Bowling Allrounder"].includes(playerProfile);
-  const showBowlingStyle = ["Bowler", "Batting Allrounder", "Bowling Allrounder"].includes(playerProfile);
+  const showBattingStyle = ["Batter", "Batting Allrounder", "Bowling Allrounder","Wicket Keeper"].includes(playerProfile);
+  const showBowlingStyle = ["Bowler", "Batting Allrounder", "Bowling Allrounder","Wicket Keeper"].includes(playerProfile);
 
   useEffect(() => {
     if (!showBattingStyle) resetField("batting_style");
