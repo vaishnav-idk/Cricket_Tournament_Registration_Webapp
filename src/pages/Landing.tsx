@@ -270,7 +270,7 @@ Matches- 10,11,18 Jan
         <iframe
           src="https://drive.google.com/file/d/18gK2gxwruoU1dxjQdJu3bq1ZRZOyp3NB/preview"
           width="100%"
-          height="800"
+          height="670"
           style={{ border: "none", pointerEvents: "none", overflow: "hidden" }}
           title="PDF Preview"
         />
