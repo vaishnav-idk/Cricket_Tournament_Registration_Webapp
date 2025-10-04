@@ -278,7 +278,7 @@ Matches- 10,11,18 Jan
         {/* PDF Preview: No scroll on mobile, scrollable on desktop */}
         <iframe
           src="https://drive.google.com/file/d/18gK2gxwruoU1dxjQdJu3bq1ZRZOyp3NB/preview"
-          className="w-full h-[300px] md:h-[600px] pointer-events-none md:pointer-events-auto"
+          className="w-full h-[500px] md:h-[600px] pointer-events-none md:pointer-events-auto"
           style={{ border: "none", overflow: "hidden" }}
           title="PDF Preview"
         />
