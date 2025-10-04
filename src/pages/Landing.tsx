@@ -250,7 +250,7 @@ Matches- 10,11,18 Jan
           </CardHeader>
           <CardContent>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[ { name: "Asif K Majeed", phone: "7994465148" }, { name: "Aravind Vijay", phone: "8129270895" }, { name: "Krishna Prasad S", phone: "8129270906" }, { name: "Logesh Karthick M", phone: "8714630992" }, { name: "Xaviour K Olassayil", phone: "8714630980" }, { name: "Sreenath B", phone: "7994435351" }, { name: "Namit M P", phone: "8714630929" }, { name: "Nandakishore P", phone: "7994230461" }, { name: "Rahul Verma", phone: "7994441162" }, { name: "Ajith", phone: "7736646119" } ].map((person) => (
+              {[ { name: "Asif K Majeed", phone: "7994465148" }, { name: "Aravind Vijay", phone: "8129270895" }, { name: "Krishna Prasad S", phone: "8129270906" }, { name: "Logesh Karthick M", phone: "8714630992" }, { name: "Xaviour K Olassayil", phone: "8714630980" }, { name: "Sreenath B", phone: "7994435351" }, { name: "Namit M P", phone: "8714630929" }, { name: "Nandakishore P", phone: "9895931983" }, { name: "Rahul Verma", phone: "7994441162" }, { name: "Ajith", phone: "7736646119" } ].map((person) => (
                 <a
                   key={person.name}
                   href={`tel:${person.phone}`}
