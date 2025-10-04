@@ -258,29 +258,37 @@ Matches- 10,11,18 Jan
 
           </CardHeader>
         </Card> */}
-         <Card className="max-w-4xl mx-auto mt-12 relative">
+         {/* <Card className="max-w-4xl mx-auto mt-12 relative">
       <CardHeader>
         <CardTitle className="text-2xl md:text-3xl text-center font-hero">
           DCCL - The Tale of Teamwork & Determination
         </CardTitle>
       </CardHeader>
 
-      <div className="relative">
+      {/* <div className="relative">
         {/* Show only the top part (cover page) */}
+        <Card className="max-w-4xl mx-auto mt-12 relative">
+      <CardHeader>
+        <CardTitle className="text-2xl md:text-3xl text-center font-hero">
+          DCCL - The Tale of Teamwork & Determination
+        </CardTitle>
+      </CardHeader>
+
+      <div className="relative w-full">
+        {/* PDF Preview: No scroll on mobile, scrollable on desktop */}
         <iframe
           src="https://drive.google.com/file/d/18gK2gxwruoU1dxjQdJu3bq1ZRZOyp3NB/preview"
-          width="100%"
-          height="600"
-          style={{ border: "none", pointerEvents: "none", overflow: "hidden" }}
+          className="w-full h-[300px] md:h-[600px] pointer-events-none md:pointer-events-auto"
+          style={{ border: "none", overflow: "hidden" }}
           title="PDF Preview"
         />
 
-        {/* Invisible clickable overlay */}
+        {/* On mobile: clickable overlay (opens full PDF) */}
         <a
           href="https://drive.google.com/file/d/18gK2gxwruoU1dxjQdJu3bq1ZRZOyp3NB/preview"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute inset-0"
+          className="absolute inset-0 md:hidden"
         />
       </div>
     </Card>
