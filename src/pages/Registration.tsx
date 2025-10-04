@@ -89,7 +89,7 @@ const playerSchema = z.object({
     }
 
     // ✅ Restrict women’s ward registration age to 12–18
-    if (data.league === "women") {
+    if (data.league === "women" && data.relationship === "Ward") {
       const dob = new Date(data.date_of_birth);
       if (isNaN(dob.getTime())) {
         ctx.addIssue({ path: ["date_of_birth"], message: "Invalid date of birth" });
