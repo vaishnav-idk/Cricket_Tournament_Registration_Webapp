@@ -142,7 +142,7 @@ const Registration = () => {
 
   // CORRECTED: Batting style is NOT shown for Wicket Keeper
   const showBattingStyle = ["Batter", "Batting Allrounder", "Bowling Allrounder","Wicket Keeper"].includes(playerProfile);
-  const showBowlingStyle = ["Bowler", "Batting Allrounder", "Bowling Allrounder","Wicket Keeper"].includes(playerProfile);
+  const showBowlingStyle = ["Bowler", "Batting Allrounder", "Bowling Allrounder"].includes(playerProfile);
 
   useEffect(() => {
     if (!showBattingStyle) resetField("batting_style");
