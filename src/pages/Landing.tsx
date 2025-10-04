@@ -246,8 +246,6 @@ Matches- 10,11,18 Jan
         <Card className="max-w-4xl mx-auto mt-12">
           <CardHeader>
             <CardTitle className="text-2xl md:text-3xl text-center font-hero">DCCL- The Tale of Teamwork & Determination !</CardTitle>
-            export default function PdfViewer() {
-  return (
     <iframe
       src="https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQrStUvWxYz/preview"
       width="100%"
@@ -256,8 +254,7 @@ Matches- 10,11,18 Jan
       title="Google Drive PDF"
       style={{ border: "none" }}
     />
-  );
-}
+  
 
           </CardHeader>
         </Card>
