@@ -220,7 +220,7 @@ const Registration = () => {
                     name="date_of_birth"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Player's Date of Birth *</FormLabel>
+                        <FormLabel>Player's Date of Birth *  </FormLabel>
                         <FormControl>
                           <Input
                             type="date"
