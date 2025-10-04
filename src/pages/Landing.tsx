@@ -25,7 +25,7 @@ const Landing = () => {
     const tick = () => {
       const now = new Date();
       const year = now.getFullYear();
-      const closing = new Date(year, 10, 16, 23, 59, 59, 999);
+      const closing = new Date(2026, 0, 10, 23, 59, 59, 999);
       let diff = closing.getTime() - now.getTime();
 
       if (diff <= 0) {
