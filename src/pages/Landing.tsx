@@ -243,9 +243,9 @@ Matches- 10,11,18 Jan
           </CardContent>
         </Card> */}
         {/* DCCL 2 pdf */}
-        <Card className="max-w-4xl mx-auto mt-12">
+        {/* <Card className="max-w-4xl mx-auto mt-12">
           <CardHeader>
-            <CardTitle className="text-2xl md:text-3xl text-center font-hero">DCCL- The Tale of Teamwork & Determination !</CardTitle>
+            <CardTitle className="text-2xl md:text-3xl text-center font-hero">DCCL- The Tale of Teamwork & Determination </CardTitle>
     <iframe
       src="https://drive.google.com/file/d/18gK2gxwruoU1dxjQdJu3bq1ZRZOyp3NB/preview"
       width="100%"
@@ -257,7 +257,33 @@ Matches- 10,11,18 Jan
   
 
           </CardHeader>
-        </Card>
+        </Card> */}
+         <Card className="max-w-4xl mx-auto mt-12 relative">
+      <CardHeader>
+        <CardTitle className="text-2xl md:text-3xl text-center font-hero">
+          DCCL - The Tale of Teamwork & Determination
+        </CardTitle>
+      </CardHeader>
+
+      <div className="relative">
+        {/* Show only the top part (cover page) */}
+        <iframe
+          src="https://drive.google.com/file/d/18gK2gxwruoU1dxjQdJu3bq1ZRZOyp3NB/preview"
+          width="100%"
+          height="500"
+          style={{ border: "none", pointerEvents: "none", overflow: "hidden" }}
+          title="PDF Preview"
+        />
+
+        {/* Invisible clickable overlay */}
+        <a
+          href="https://drive.google.com/file/d/18gK2gxwruoU1dxjQdJu3bq1ZRZOyp3NB/preview"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute inset-0"
+        />
+      </div>
+    </Card>
         {/* Contact Section */}
         <Card className="max-w-4xl mx-auto mt-12">
           <CardHeader>
